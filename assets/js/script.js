@@ -15,6 +15,7 @@ var firebaseConfig = {
 //   var Tfreq = 0;
 //   var Tnext = '';
 //   var Taway = 0;
+var database = firebase.database();
 
   $('.btn').on('click', function(event){
       event.preventDefault()
@@ -32,7 +33,7 @@ var firebaseConfig = {
       console.log(Tfreq)
 
 
-      var database = firebase.database();
+      
 
       database.ref().push({
           Tname: Tname,
@@ -45,4 +46,10 @@ var firebaseConfig = {
       
   })
 
-  
+database.ref().on('child_added', function(snapshot){
+    var Tname = snapshot.val().Tname
+    var Tdesti = snapshot.val().Tdesti
+    var Ttime = snapshot.val().Ttime
+    var Tfreq = snapshot.val().Tfreq
+})
+
