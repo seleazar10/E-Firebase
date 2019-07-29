@@ -10,17 +10,16 @@ var firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-//   var Tname = '';
-//   var Tdesti = '';
-//   var Tfreq = 0;
-//   var Tnext = '';
-//   var Taway = 0;
-var database = firebase.database();
 
+
+var firebase = firebase.database();
+
+
+//on-click to register train/////////////
   $('.btn').on('click', function(event){
       event.preventDefault()
 
-    
+   //gather tain form input data/////////////////
       Tname = $('#trainNameInput').val().trim()
       Tdesti = $('#destinationInput').val().trim()
       Ttime = $('#timeInput').val().trim()
@@ -33,33 +32,51 @@ var database = firebase.database();
       console.log(Tfreq)
 
 
-      
+    ///push data to firebase/////////////////////
 
-      database.ref().push({
+     firebase.ref().push({
           Tname: Tname,
           Tdesti: Tdesti,
           Ttime: Ttime,
           Tfreq: Tfreq
       })
 
+      //empty input after click////////////////
+
       $('.form-control').val('');
       
   })
 
-database.ref().on('child_added', function(snapshot){
+
+//lister for each child added/////////////////////////
+firebase.ref().on('child_added', function(snapshot){
     var Tname = snapshot.val().Tname
     var Tdesti = snapshot.val().Tdesti
     var Ttime = snapshot.val().Ttime
     var Tfreq = snapshot.val().Tfreq
+
+
+    var convertedTime = moment(Ttime,'HH:mm');
+      console.log( convertedTime);
+      var currentTime = moment();
+      var timeDiff = currentTime.diff(moment(convertedTime),"minutes");
+      var timeRemainder = timeDiff % Tfreq;
+      var mnsBeforeNext = Tfreq - timeRemainder;
+      var tNext = moment().add(mnsBeforeNext, 'minutes');
+      var nextArrival = tNext.format("HH:mm")
 
     var row = $('<tr>')
     row.append(
         $('<td>').text(Tname),
         $('<td>').text(Tdesti),        
         $('<td>').text(Tfreq),
-        $('<td>').text(Ttime),
+        $('<td>').text(nextArrival),
+        $('<td>').text(tNext),
 
     )
+
+    ///append data/////////////////
+
 
     $('tbody').append(row)
 })
