@@ -51,5 +51,16 @@ database.ref().on('child_added', function(snapshot){
     var Tdesti = snapshot.val().Tdesti
     var Ttime = snapshot.val().Ttime
     var Tfreq = snapshot.val().Tfreq
+
+    var row = $('<tr>')
+    row.append(
+        $('<td>').text(Tname),
+        $('<td>').text(Tdesti),        
+        $('<td>').text(Tfreq),
+        $('<td>').text(Ttime),
+
+    )
+
+    $('tbody').append(row)
 })
 
