@@ -60,9 +60,11 @@ firebase.ref().on('child_added', function(snapshot){
       console.log( convertedTime);
       var currentTime = moment();
       var timeDiff = currentTime.diff(moment(convertedTime),"minutes");
+      console.log(timeDiff)
       var timeRemainder = timeDiff % Tfreq;
       var mnsBeforeNext = Tfreq - timeRemainder;
       var tNext = moment().add(mnsBeforeNext, 'minutes');
+      
       var nextArrival = tNext.format("HH:mm")
 
     var row = $('<tr>')
@@ -71,7 +73,7 @@ firebase.ref().on('child_added', function(snapshot){
         $('<td>').text(Tdesti),        
         $('<td>').text(Tfreq),
         $('<td>').text(nextArrival),
-        $('<td>').text(tNext),
+        $('<td>').text(timeDiff),
 
     )
 
