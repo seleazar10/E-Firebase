@@ -73,7 +73,7 @@ firebase.ref().on('child_added', function(snapshot){
         $('<td>').text(Tdesti),        
         $('<td>').text(Tfreq),
         $('<td>').text(nextArrival),
-        $('<td>').text(timeDiff),
+        $('<td>').text(tNext),
 
     )
 
